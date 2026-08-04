@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/OxalcVasquez/git-doc-automation/internal/git"
+	"github.com/OxalcVasquez/git-doc-automation/internal/report"
 )
 
 // Run executes the current CLI flow with the given configuration.
@@ -23,14 +24,16 @@ func Run(cfg Config) error {
 		return err
 	}
 
+	entries, reportSummary := report.Build(changes, summary)
+
 	fmt.Println("------------------------------------")
 	fmt.Println("Repository scanned")
-	fmt.Printf("Added: %d\n", summary.Added)
-	fmt.Printf("Modified: %d\n", summary.Modified)
-	fmt.Printf("Deleted: %d\n", summary.Deleted)
-	fmt.Printf("Renamed: %d\n", summary.Renamed)
+	fmt.Printf("Added: %d\n", reportSummary.Added)
+	fmt.Printf("Modified: %d\n", reportSummary.Modified)
+	fmt.Printf("Deleted: %d\n", reportSummary.Deleted)
+	fmt.Printf("Renamed: %d\n", reportSummary.Renamed)
 	fmt.Println("------------------------------------")
-	fmt.Printf("Total changes: %d\n", len(changes))
+	fmt.Printf("Total changes: %d\n", len(entries))
 
 	return nil
 }
