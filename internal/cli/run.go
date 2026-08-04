@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 
+	"github.com/OxalcVasquez/git-doc-automation/internal/excel"
 	"github.com/OxalcVasquez/git-doc-automation/internal/git"
 	"github.com/OxalcVasquez/git-doc-automation/internal/report"
 )
@@ -35,5 +36,10 @@ func Run(cfg Config) error {
 	fmt.Println("------------------------------------")
 	fmt.Printf("Total changes: %d\n", len(entries))
 
+	if err := excel.Write(cfg.OutputPath, entries, reportSummary); err != nil {
+		return err
+	}
+
+	fmt.Printf("Workbook written to %s\n", cfg.OutputPath)
 	return nil
 }
